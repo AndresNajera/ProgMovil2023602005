@@ -1,0 +1,87 @@
+USE u962863782_ste;
+
+
+CREATE TABLE usuarios (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nombreJefe VARCHAR(255) NOT NULL,
+  expediente VARCHAR(50) NOT NULL,
+  correo VARCHAR(255) NOT NULL UNIQUE,
+  password VARCHAR(255) NOT NULL,
+  ultimaModificacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+SELECT * FROM usuarios;
+----------------------------------------------------------------------------------------------
+CREATE TABLE informeTasquena (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  terminal VARCHAR(20) DEFAULT 'tasquena',  -- siempre 'tasquena'
+  expedienteJefe VARCHAR(20),                -- expediente del jefe
+  turno ENUM('A', 'B'),
+  fecha DATE
+);
+SELECT * FROM informeTasquena;
+---------------------------------------------------------------------------------------------
+CREATE TABLE informeXochimilco (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  terminal VARCHAR(20) DEFAULT 'xochimilco',  -- siempre 'xochimilco'
+  expedienteJefe VARCHAR(20),                  -- expediente del jefe
+  turno ENUM('A', 'B'),
+  fecha DATE
+);
+
+SELECT * FROM informeXochimilco;
+--------------------------------------------------------------------------------------------
+CREATE TABLE InformeDetalleTasquena (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  informeId INT,
+  corrida VARCHAR(2),       -- '01', '02', ..., '18'
+  tren VARCHAR(3),          -- código del tren
+  llega TIME,               -- hora de llegada
+  sale TIME,                -- hora de salida
+  intervalo TIME,           -- diferencia entre salidas
+  operador VARCHAR(5),      -- operador con 5 dígitos
+  observaciones TEXT,
+  FOREIGN KEY (informeId) REFERENCES informeTasquena(id) ON DELETE CASCADE
+);
+
+SELECT * FROM InformeDetalleTasquena;
+--------------------------------------------------------------------------------------------
+CREATE TABLE InformeDetalleXochimilco (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  informeId INT,
+  corrida VARCHAR(2),       -- '01', '02', ..., '18'
+  tren VARCHAR(3),          -- código del tren
+  llega TIME,               -- hora de llegada
+  sale TIME,                -- hora de salida
+  intervalo TIME,           -- diferencia entre salidas
+  operador VARCHAR(5),      -- operador con 5 dígitos
+  observaciones TEXT,
+  FOREIGN KEY (informeId) REFERENCES informeTasquena(id) ON DELETE CASCADE
+);
+
+SELECT * FROM InformeDetalleXochimilco;
+--------------------------------------------------------------------------------------------
+SELECT * FROM usuarios;
+SELECT * FROM informeTasquena;
+SELECT * FROM informeXochimilco;
+SELECT * FROM InformeDetalleTasquena;
+SELECT * FROM InformeDetalleXochimilco;
+
+
+
+USE u962863782_ste;
+
+DROP TABLE IF EXISTS InformeDetalleXochimilco;
+DROP TABLE IF EXISTS InformeDetalleTasquena;
+DROP TABLE IF EXISTS informeXochimilco;
+DROP TABLE IF EXISTS informeTasquena;
+DROP TABLE IF EXISTS usuarios;
+
+
+
+
+
+
+
+
+
+
